@@ -66,12 +66,18 @@ source ~/.zshrc
 These can't be scripted easily - do them by hand:
 
 - **SSH keys** - generate a new key and add to GitHub: `ssh-keygen -t ed25519 -C "your@email.com"`
-- **1Password** - install from App Store, sign in
+- **gh auth** - authenticate GitHub CLI: `gh auth login`
 - **OpenSuperWhisper** - set trigger key to right Command (hold to record, release to transcribe)
 - **Ghostty** - set as default terminal
 - **LinearMouse** - configure sensitivity preferences
 - **Tailscale** - sign in to your account
-- **gh auth** - authenticate GitHub CLI: `gh auth login`
+- **Alfred** - license key needed, set as Spotlight replacement (System Settings > Keyboard > Shortcuts > Spotlight, disable it)
+
+### App Store only (no Homebrew cask)
+
+Install these manually from the App Store:
+
+- **Magnet** - window manager
 
 ## What's in this repo
 

@@ -43,14 +43,57 @@ brew "mysql"
 brew "postgresql@14"
 
 # ── Apps (Casks) ──────────────────────────────────────────────────────────────
+
+# AI
 cask "claude"
 cask "claude-code"
+cask "chatgpt"
+cask "poe"
+
+# Browsers
+cask "firefox"
+cask "google-chrome"
+
+# Communication
 cask "discord"
-cask "font-jetbrains-mono-nerd-font"
+cask "microsoft-teams"
+cask "notion"
+cask "slack"
+
+# Dev Tools
+cask "alacritty"
+cask "docker-desktop"
 cask "ghostty"
+cask "kitty"
+cask "visual-studio-code"
+
+# Media
 cask "iina"
+cask "spotify"
+cask "vlc"
+
+# Productivity
+cask "alfred"
+cask "anki"
+cask "obsidian"
+
+# Hardware / Display
 cask "linearmouse"
 cask "monitorcontrol"
-cask "obsidian"
+
+# 3D / Making
+cask "bambu-studio"
+cask "openscad@snapshot"
+
+# System / Network
+cask "backblaze"
 cask "opensuperwhisper"
+cask "private-internet-access"
+cask "steam"
 cask "tailscale-app"
+
+# Fonts
+cask "font-jetbrains-mono-nerd-font"
+
+# App Store only (no cask available - install manually)
+# - Magnet
