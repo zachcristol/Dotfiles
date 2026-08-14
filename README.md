@@ -12,15 +12,44 @@ xcode-select --install
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-## 1. Clone this repo
+## 1. SSH key for GitHub
 
-The symlinks in this repo use relative paths that assume it lives at `~/Dotfiles`. Clone it there exactly:
+Generate a key, add it to GitHub, then configure SSH to use it automatically.
+
+```bash
+# Generate key
+ssh-keygen -t ed25519 -C "zachcristol@gmail.com" -f ~/.ssh/id_ed25519_github
+
+# Start agent and load key
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519_github
+
+# Copy public key - paste this into github.com/settings/keys → New SSH key
+cat ~/.ssh/id_ed25519_github.pub
+```
+
+Create `~/.ssh/config`:
+
+```
+Host github.com
+  IdentityFile ~/.ssh/id_ed25519_github
+  AddKeysToAgent yes
+```
+
+Test it:
+
+```bash
+ssh -T git@github.com
+# Should say: Hi zachcristol! You've successfully authenticated...
+```
+
+## 2. Clone this repo
 
 ```bash
 git clone git@github.com:zachcristol/Dotfiles.git ~/Dotfiles
 ```
 
-## 2. Install packages
+## 3. Install packages
 
 ```bash
 cd ~/Dotfiles
@@ -29,11 +58,9 @@ brew bundle install
 
 This installs everything in the `Brewfile` — CLI tools, apps, and fonts.
 
-## 3. Set up symlinks
+## 4. Set up symlinks
 
-Symlinks wire config files from this repo into the places macOS/apps expect them.
-
-Already wired (created manually, record them here if you redo them):
+Run these to wire config files from this repo into the right places:
 
 ```bash
 ln -sf ~/Dotfiles/.zshrc ~/.zshrc
@@ -52,46 +79,42 @@ cp ~/.config/starship.toml ~/Dotfiles/.config/starship.toml
 ln -sf ~/Dotfiles/.config/starship.toml ~/.config/starship.toml
 ```
 
-## 4. macOS settings
+## 5. Shell setup
+
+Reload the shell — Zinit installs itself automatically on first launch:
 
 ```bash
-# Key repeat - as fast as possible (minimum via UI is 2, this goes lower)
+source ~/.zshrc
+```
+
+## 6. macOS settings
+
+```bash
+# Key repeat - as fast as possible (below UI minimum)
 defaults write NSGlobalDomain KeyRepeat -int 1
 
-# Delay until repeat - very short (UI minimum is 15, this goes lower)
+# Delay until repeat - very short (below UI minimum)
 defaults write NSGlobalDomain InitialKeyRepeat -float 8.5
 
-# Three finger drag (System Settings > Accessibility > Pointer Control > Trackpad Options)
+# Three finger drag
 defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool true
 ```
 
-> Note: `InitialKeyRepeat 8.5` and `KeyRepeat 1` are below what System Settings exposes. After writing these, you won't see them reflected in the UI slider but they are active. Log out and back in to apply all settings.
+> Log out and back in to apply. The key repeat values are below what System Settings exposes so they won't show correctly in the UI slider — they are still active.
 
-## 5. Shell setup
+## 7. Manual steps
 
-Zinit (zsh plugin manager) installs itself automatically on first shell launch - no action needed.
+These can't be scripted — do them by hand:
 
-```bash
-# Reload shell
-source ~/.zshrc
-```
-
-## 5. Manual steps
-
-These can't be scripted easily - do them by hand:
-
-- **SSH keys** - generate a new key and add to GitHub: `ssh-keygen -t ed25519 -C "your@email.com"`
 - **gh auth** - authenticate GitHub CLI: `gh auth login`
 - **OpenSuperWhisper** - set trigger key to right Command (hold to record, release to transcribe)
 - **Ghostty** - set as default terminal
 - **LinearMouse** - configure sensitivity preferences
 - **Tailscale** - sign in to your account
-- **Alfred** - license key needed, set as Spotlight replacement (System Settings > Keyboard > Shortcuts > Spotlight, disable it)
+- **Alfred** - license key needed; disable Spotlight (System Settings > Keyboard > Shortcuts > Spotlight) and set Alfred as replacement
 
 ### App Store only (no Homebrew cask)
-
-Install these manually from the App Store:
 
 - **Magnet** - window manager
 
