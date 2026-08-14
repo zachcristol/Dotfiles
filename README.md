@@ -69,6 +69,7 @@ ln -sf ~/Dotfiles/.config/nvim ~/.config/nvim
 ln -sf ~/Dotfiles/.config/starship.toml ~/.config/starship.toml
 ln -sf ~/Dotfiles/.tmux.conf ~/.tmux.conf
 ln -sf ~/Dotfiles/.config/ghostty ~/Library/Application\ Support/com.mitchellh.ghostty/config
+ln -sf ~/Dotfiles/.config/agent.md ~/.claude/CLAUDE.md
 ```
 
 ## 5. Shell setup
@@ -120,6 +121,7 @@ These can't be scripted — do them by hand:
 | `.config/starship.toml` | `~/.config/starship.toml` | tracked + symlinked |
 | `.config/ghostty` | `~/Library/Application Support/com.mitchellh.ghostty/config` | tracked + symlinked |
 | `.tmux.conf` | `~/.tmux.conf` | tracked + symlinked |
+| `.config/agent.md` | `~/.claude/CLAUDE.md` | tracked + symlinked |
 | `Brewfile` | run from `~/Dotfiles/` | tracked |
 
 ## Keeping it up to date
