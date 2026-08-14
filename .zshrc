@@ -97,6 +97,12 @@ if command -v zoxide &>/dev/null; then
   eval "$(zoxide init --cmd cd zsh)"
 fi
 
+# ── SSH Agent ────────────────────────────────────────────────────────────────
+if [ -z "$SSH_AUTH_SOCK" ]; then
+  eval "$(ssh-agent -s)" > /dev/null
+  ssh-add ~/.ssh/id_ed25519_github 2>/dev/null
+fi
+
 # ── Prompt (Starship) ─────────────────────────────────────────────────────────
 if command -v starship &>/dev/null; then
   eval "$(starship init zsh)"
