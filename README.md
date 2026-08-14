@@ -52,7 +52,23 @@ cp ~/.config/starship.toml ~/Dotfiles/.config/starship.toml
 ln -sf ~/Dotfiles/.config/starship.toml ~/.config/starship.toml
 ```
 
-## 4. Shell setup
+## 4. macOS settings
+
+```bash
+# Key repeat - as fast as possible (minimum via UI is 2, this goes lower)
+defaults write NSGlobalDomain KeyRepeat -int 1
+
+# Delay until repeat - very short (UI minimum is 15, this goes lower)
+defaults write NSGlobalDomain InitialKeyRepeat -float 8.5
+
+# Three finger drag (System Settings > Accessibility > Pointer Control > Trackpad Options)
+defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -bool true
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerDrag -bool true
+```
+
+> Note: `InitialKeyRepeat 8.5` and `KeyRepeat 1` are below what System Settings exposes. After writing these, you won't see them reflected in the UI slider but they are active. Log out and back in to apply all settings.
+
+## 5. Shell setup
 
 Zinit (zsh plugin manager) installs itself automatically on first shell launch - no action needed.
 
