@@ -71,6 +71,8 @@ ln -sf ~/Dotfiles/.tmux.conf ~/.tmux.conf
 ln -sf ~/Dotfiles/.config/ghostty ~/Library/Application\ Support/com.mitchellh.ghostty/config
 ln -sf ~/Dotfiles/.config/agent.md ~/.claude/CLAUDE.md
 ln -sf ~/Dotfiles/.gitconfig ~/.gitconfig
+ln -sf ~/Dotfiles/.agents/skills/no-mistakes ~/.claude/skills/no-mistakes
+ln -sf ~/Dotfiles/.agents/skills/lavish ~/.claude/skills/lavish
 ```
 
 ## 5. Shell setup
@@ -105,11 +107,10 @@ Tools for working with AI agents. All by [Kun Chen (kunchenguid)](https://github
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/kunchenguid/no-mistakes/main/docs/install.sh | sh
-no-mistakes init   # run from inside a git repo to install the /no-mistakes Claude skill
 ```
 
-After `init`, use `/no-mistakes` inside Claude Code to run the full pipeline:
-adversarial review → e2e tests → lint → docs → push → open PR.
+Then run `no-mistakes init` once inside each git repo you want to use it with (sets up the local gate).
+The `/no-mistakes` Claude skill is already tracked in this repo and wired via the symlink step above.
 
 ### Treehouse — parallel agent worktrees
 
@@ -184,6 +185,8 @@ These can't be scripted — do them by hand:
 | `.tmux.conf` | `~/.tmux.conf` | tracked + symlinked |
 | `.config/agent.md` | `~/.claude/CLAUDE.md` | tracked + symlinked |
 | `.gitconfig` | `~/.gitconfig` | tracked + symlinked |
+| `.agents/skills/no-mistakes/` | `~/.claude/skills/no-mistakes/` | tracked + symlinked |
+| `.agents/skills/lavish/` | `~/.claude/skills/lavish/` | tracked + symlinked |
 | `Brewfile` | run from `~/Dotfiles/` | tracked |
 
 ## Keeping it up to date
