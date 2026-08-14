@@ -70,6 +70,7 @@ ln -sf ~/Dotfiles/.config/starship.toml ~/.config/starship.toml
 ln -sf ~/Dotfiles/.tmux.conf ~/.tmux.conf
 ln -sf ~/Dotfiles/.config/ghostty ~/Library/Application\ Support/com.mitchellh.ghostty/config
 ln -sf ~/Dotfiles/.config/agent.md ~/.claude/CLAUDE.md
+ln -sf ~/Dotfiles/.gitconfig ~/.gitconfig
 ```
 
 ## 5. Shell setup
@@ -182,6 +183,7 @@ These can't be scripted — do them by hand:
 | `.config/ghostty` | `~/Library/Application Support/com.mitchellh.ghostty/config` | tracked + symlinked |
 | `.tmux.conf` | `~/.tmux.conf` | tracked + symlinked |
 | `.config/agent.md` | `~/.claude/CLAUDE.md` | tracked + symlinked |
+| `.gitconfig` | `~/.gitconfig` | tracked + symlinked |
 | `Brewfile` | run from `~/Dotfiles/` | tracked |
 
 ## Keeping it up to date
