@@ -65,11 +65,10 @@ Run these to wire config files from this repo into the right places:
 ```bash
 ln -sf ~/Dotfiles/.zshrc ~/.zshrc
 ln -sf ~/Dotfiles/.config/alacritty ~/.config/alacritty
-```
-
-```bash
 ln -sf ~/Dotfiles/.config/nvim ~/.config/nvim
 ln -sf ~/Dotfiles/.config/starship.toml ~/.config/starship.toml
+ln -sf ~/Dotfiles/.tmux.conf ~/.tmux.conf
+ln -sf ~/Dotfiles/.config/ghostty ~/Library/Application\ Support/com.mitchellh.ghostty/config
 ```
 
 ## 5. Shell setup
@@ -119,6 +118,8 @@ These can't be scripted — do them by hand:
 | `.config/alacritty/` | `~/.config/alacritty/` | tracked + symlinked |
 | `.config/nvim/` | `~/.config/nvim/` | tracked + symlinked |
 | `.config/starship.toml` | `~/.config/starship.toml` | tracked + symlinked |
+| `.config/ghostty` | `~/Library/Application Support/com.mitchellh.ghostty/config` | tracked + symlinked |
+| `.tmux.conf` | `~/.tmux.conf` | tracked + symlinked |
 | `Brewfile` | run from `~/Dotfiles/` | tracked |
 
 ## Keeping it up to date
