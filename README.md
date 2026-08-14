@@ -67,15 +67,8 @@ ln -sf ~/Dotfiles/.zshrc ~/.zshrc
 ln -sf ~/Dotfiles/.config/alacritty ~/.config/alacritty
 ```
 
-Still to be added to repo and wired:
-
 ```bash
-# Neovim
-cp -r ~/.config/nvim ~/Dotfiles/.config/nvim   # first time only - move it in
 ln -sf ~/Dotfiles/.config/nvim ~/.config/nvim
-
-# Starship
-cp ~/.config/starship.toml ~/Dotfiles/.config/starship.toml
 ln -sf ~/Dotfiles/.config/starship.toml ~/.config/starship.toml
 ```
 
@@ -124,8 +117,8 @@ These can't be scripted — do them by hand:
 |---|---|---|
 | `.zshrc` | `~/.zshrc` | tracked + symlinked |
 | `.config/alacritty/` | `~/.config/alacritty/` | tracked + symlinked |
-| `.config/nvim/` | `~/.config/nvim/` | **not yet added** |
-| `.config/starship.toml` | `~/.config/starship.toml` | **not yet added** |
+| `.config/nvim/` | `~/.config/nvim/` | tracked + symlinked |
+| `.config/starship.toml` | `~/.config/starship.toml` | tracked + symlinked |
 | `Brewfile` | run from `~/Dotfiles/` | tracked |
 
 ## Keeping it up to date
