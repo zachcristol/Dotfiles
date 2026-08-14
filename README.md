@@ -96,7 +96,67 @@ defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeF
 
 > Log out and back in to apply. The key repeat values are below what System Settings exposes so they won't show correctly in the UI slider — they are still active.
 
-## 7. Manual steps
+## 7. Agentic stack
+
+Tools for working with AI agents. All by [Kun Chen (kunchenguid)](https://github.com/kunchenguid).
+
+### No Mistakes — automated code review + PR pipeline
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/kunchenguid/no-mistakes/main/docs/install.sh | sh
+no-mistakes init   # run from inside a git repo to install the /no-mistakes Claude skill
+```
+
+After `init`, use `/no-mistakes` inside Claude Code to run the full pipeline:
+adversarial review → e2e tests → lint → docs → push → open PR.
+
+### Treehouse — parallel agent worktrees
+
+```bash
+curl -fsSL https://kunchenguid.github.io/treehouse/install.sh | sh
+```
+
+Usage: `treehouse` drops you into an isolated git worktree. `exit` returns it to the pool.
+Run multiple Claude instances in parallel without them conflicting.
+
+### Lavish — visual HTML planning artifacts
+
+```bash
+npx skills add kunchenguid/lavish-axi --skill lavish
+```
+
+Installs as a Claude Code skill. Tell Claude to "plan with lavish" — it generates an HTML
+artifact that opens in the browser for annotating and making decisions visually.
+
+### Good Night Have Fun — overnight autonomous loops
+
+```bash
+# Install (from ~/Developer/gnhf after cloning)
+git clone https://github.com/kunchenguid/gnhf.git ~/Developer/gnhf
+cd ~/Developer/gnhf
+pnpm setup         # adds pnpm to PATH in .zshrc
+source ~/.zshrc
+COREPACK_INTEGRITY_KEYS=0 pnpm add --global .
+```
+
+Usage: `gnhf "your objective"` — runs Claude in a loop until the objective is met.
+Good for: overnight test coverage improvements, performance work, UI polish passes.
+
+> Note: `COREPACK_INTEGRITY_KEYS=0` is needed due to a corepack keyring issue with pnpm@11 on this Node version.
+
+### First Mate — orchestrator meta-agent
+
+```bash
+git clone https://github.com/kunchenguid/firstmate.git ~/Developer/firstmate
+cd ~/Developer/firstmate
+# Run your agent harness from inside this directory
+# First launch detects missing tools and tells you exactly what to install
+```
+
+First Mate manages parallel tmux sessions, calls Treehouse for worktrees, launches agents
+per task, runs No Mistakes on each, and reports status. Talk to it in high-level terms.
+
+## 8. Manual steps
 
 These can't be scripted — do them by hand:
 
