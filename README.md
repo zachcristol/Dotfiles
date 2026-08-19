@@ -69,6 +69,8 @@ ln -sf ~/Dotfiles/.config/nvim ~/.config/nvim
 ln -sf ~/Dotfiles/.config/starship.toml ~/.config/starship.toml
 ln -sf ~/Dotfiles/.tmux.conf ~/.tmux.conf
 ln -sf ~/Dotfiles/.config/ghostty ~/Library/Application\ Support/com.mitchellh.ghostty/config
+ln -sf ~/Dotfiles/.config/wezterm ~/.config/wezterm
+ln -sf ~/Dotfiles/.config/zellij ~/.config/zellij
 ln -sf ~/Dotfiles/.config/agent.md ~/.claude/CLAUDE.md
 ln -sf ~/Dotfiles/.gitconfig ~/.gitconfig
 ln -sf ~/Dotfiles/.agents/skills/no-mistakes ~/.claude/skills/no-mistakes
@@ -182,6 +184,8 @@ These can't be scripted — do them by hand:
 | `.config/nvim/` | `~/.config/nvim/` | tracked + symlinked |
 | `.config/starship.toml` | `~/.config/starship.toml` | tracked + symlinked |
 | `.config/ghostty` | `~/Library/Application Support/com.mitchellh.ghostty/config` | tracked + symlinked |
+| `.config/wezterm/` | `~/.config/wezterm/` | tracked + symlinked |
+| `.config/zellij/` | `~/.config/zellij/` | tracked + symlinked |
 | `.tmux.conf` | `~/.tmux.conf` | tracked + symlinked |
 | `.config/agent.md` | `~/.claude/CLAUDE.md` | tracked + symlinked |
 | `.gitconfig` | `~/.gitconfig` | tracked + symlinked |
