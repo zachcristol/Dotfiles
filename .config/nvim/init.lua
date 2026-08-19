@@ -70,7 +70,7 @@ map({ "n", "v" }, "<C-a>", "ggVG")
 
 -- Clear search highlight in normal mode; ESC in insert mode exits and saves
 map("n", "<Esc>", "<cmd>nohlsearch<CR>")
-map("i", "<Esc>", "<Esc><cmd>w<CR>")
+map("i", "<Esc>", "<Esc><cmd>silent! w<CR>")
 
 -- Save with Ctrl+S (all modes)
 map({ "n", "i", "v" }, "<C-s>", "<cmd>w<CR><Esc>")
