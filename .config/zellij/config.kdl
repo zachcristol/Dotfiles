@@ -1,0 +1,109 @@
+// Zellij configuration
+// Keybindings tuned for tmux muscle memory:
+//   Ctrl+B prefix (matching tmux default)
+//   Common splits and navigation mirror tmux conventions
+
+// ── Theme ─────────────────────────────────────────────────────────────────────
+theme "rose-pine-moon"
+
+// ── Behaviour ─────────────────────────────────────────────────────────────────
+// Start in a default shell layout with the status bar
+default_layout "compact"
+
+// Copy on select (no explicit Ctrl+C needed)
+copy_on_select true
+
+// Scroll faster
+scroll_buffer_size 10000
+
+// ── Mouse ─────────────────────────────────────────────────────────────────────
+mouse_mode true
+
+// ── Keybindings ───────────────────────────────────────────────────────────────
+// Rebind the default Ctrl+G (unlock) prefix to Ctrl+B to match tmux.
+// The "normal" mode intercepts one key after the prefix.
+keybinds clear-defaults=false {
+    // --- Normal (locked) mode - Ctrl+B as the prefix chord ---
+    normal {
+        // Prefix key - enter tmux-like command mode
+        bind "Ctrl b" { SwitchToMode "tmux"; }
+    }
+
+    // --- Tmux mode (activated after Ctrl+B) ---
+    tmux {
+        // Return to normal editing on Escape or another Ctrl+B
+        bind "Esc"    { SwitchToMode "normal"; }
+        bind "Ctrl b" { Write 2; SwitchToMode "normal"; }  // pass literal Ctrl+B through
+
+        // Splits - mirror tmux: % for vertical, " for horizontal
+        bind "%"      { NewPane "Right"; SwitchToMode "normal"; }
+        bind "\""     { NewPane "Down";  SwitchToMode "normal"; }
+
+        // Close pane
+        bind "x"      { CloseFocus; SwitchToMode "normal"; }
+
+        // New window / tab
+        bind "c"      { NewTab; SwitchToMode "normal"; }
+
+        // Navigate panes with hjkl (vim-style) or arrow keys
+        bind "h"      { MoveFocus "Left";  SwitchToMode "normal"; }
+        bind "j"      { MoveFocus "Down";  SwitchToMode "normal"; }
+        bind "k"      { MoveFocus "Up";    SwitchToMode "normal"; }
+        bind "l"      { MoveFocus "Right"; SwitchToMode "normal"; }
+        bind "Left"   { MoveFocus "Left";  SwitchToMode "normal"; }
+        bind "Down"   { MoveFocus "Down";  SwitchToMode "normal"; }
+        bind "Up"     { MoveFocus "Up";    SwitchToMode "normal"; }
+        bind "Right"  { MoveFocus "Right"; SwitchToMode "normal"; }
+
+        // Switch tabs with n/p (next/prev) or numbers
+        bind "n"      { GoToNextTab;     SwitchToMode "normal"; }
+        bind "p"      { GoToPreviousTab; SwitchToMode "normal"; }
+        bind "1"      { GoToTab 1; SwitchToMode "normal"; }
+        bind "2"      { GoToTab 2; SwitchToMode "normal"; }
+        bind "3"      { GoToTab 3; SwitchToMode "normal"; }
+        bind "4"      { GoToTab 4; SwitchToMode "normal"; }
+        bind "5"      { GoToTab 5; SwitchToMode "normal"; }
+
+        // Rename tab (mirrors tmux ,)
+        bind ","      { SwitchToMode "RenameTab"; }
+
+        // Detach session (mirrors tmux d)
+        bind "d"      { Detach; }
+
+        // Resize mode
+        bind "r"      { SwitchToMode "resize"; }
+
+        // Scroll / copy mode
+        bind "["      { SwitchToMode "scroll"; }
+
+        // Session manager
+        bind "s"      { SwitchToMode "session"; }
+
+        // Full-screen toggle (mirrors tmux z)
+        bind "z"      { ToggleFocusFullscreen; SwitchToMode "normal"; }
+    }
+
+    // --- Scroll (copy) mode ---
+    scroll {
+        bind "Esc" "q" { SwitchToMode "normal"; }
+        bind "j"       { ScrollDown; }
+        bind "k"       { ScrollUp; }
+        bind "d"       { HalfPageScrollDown; }
+        bind "u"       { HalfPageScrollUp; }
+        bind "G"       { ScrollToBottom; }
+        bind "g"       { ScrollToTop; }
+    }
+
+    // --- Resize mode ---
+    resize {
+        bind "Esc"    { SwitchToMode "normal"; }
+        bind "h"      { Resize "Increase Left"; }
+        bind "j"      { Resize "Increase Down"; }
+        bind "k"      { Resize "Increase Up"; }
+        bind "l"      { Resize "Increase Right"; }
+        bind "H"      { Resize "Decrease Left"; }
+        bind "J"      { Resize "Decrease Down"; }
+        bind "K"      { Resize "Decrease Up"; }
+        bind "L"      { Resize "Decrease Right"; }
+    }
+}

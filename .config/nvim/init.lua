@@ -5,7 +5,7 @@ vim.opt.cursorline     = true          -- highlight current line
 vim.opt.signcolumn     = "yes"         -- always show sign column (no jitter)
 vim.opt.wrap           = true          -- wrap long lines
 vim.opt.linebreak      = true          -- break at word boundaries
-vim.opt.scrolloff      = 8             -- keep 8 lines above/below cursor
+vim.opt.scrolloff      = 16            -- keep 16 lines above/below cursor
 vim.opt.sidescrolloff  = 8
 
 -- Indentation
@@ -53,7 +53,7 @@ map("n", "<C-u>", "<C-u>zz")
 map("n", "n", "nzzzv")
 map("n", "N", "Nzzzv")
 
--- Don't lose clipboard when pasting over selection
+-- Don't clobber clipboard when pasting over a visual selection
 map("x", "<leader>p", '"_dP')
 
 -- Open current file's directory in Finder
@@ -65,10 +65,14 @@ end)
 map("v", "<D-c>", '"+y')
 map("n", "<D-c>", '"+yy')
 
--- Clear search highlight
-map("n", "<Esc>", "<cmd>nohlsearch<CR>")
+-- Select all (Ctrl+A)
+map({ "n", "v" }, "<C-a>", "ggVG")
 
--- Save with Ctrl+S
+-- Clear search highlight in normal mode; ESC in insert mode exits and saves
+map("n", "<Esc>", "<cmd>nohlsearch<CR>")
+map("i", "<Esc>", "<Esc><cmd>silent! w<CR>")
+
+-- Save with Ctrl+S (all modes)
 map({ "n", "i", "v" }, "<C-s>", "<cmd>w<CR><Esc>")
 
 -- Quit
@@ -87,58 +91,88 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 
-  -- Colorscheme
+  -- ── Colorscheme ─────────────────────────────────────────────────────────────
   {
-    "folke/tokyonight.nvim",
+    "rose-pine/neovim",
+    name     = "rose-pine",
     priority = 1000,
     config = function()
-      require("tokyonight").setup({ style = "night" })
-      vim.cmd.colorscheme("tokyonight")
+      require("rose-pine").setup({ variant = "moon" })
+      vim.cmd.colorscheme("rose-pine")
     end,
   },
 
-  -- Statusline
+  -- ── Statusline ──────────────────────────────────────────────────────────────
   {
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
-      require("lualine").setup({ options = { theme = "tokyonight" } })
+      require("lualine").setup({ options = { theme = "rose-pine" } })
     end,
   },
 
-  -- Fuzzy finder (Ctrl+P files, leader+/ grep)
+  -- ── Snacks — file picker, grep, buffer switcher ──────────────────────────────
   {
-    "nvim-telescope/telescope.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      local builtin = require("telescope.builtin")
-      map("n", "<C-p>",      builtin.find_files)
-      map("n", "<leader>/",  builtin.live_grep)
-      map("n", "<leader>b",  builtin.buffers)
-    end,
+    "folke/snacks.nvim",
+    priority = 900,
+    lazy     = false,
+    ---@type snacks.Config
+    opts = {
+      -- enable the pickers we use; disable the rest
+      picker  = { enabled = true },
+      notifier = { enabled = true },
+      bigfile  = { enabled = true },
+    },
+    keys = {
+      { "<leader>f", function() Snacks.picker.files() end,   desc = "Find files" },
+      { "<leader>s", function() Snacks.picker.grep() end,    desc = "Grep (live)" },
+      { "<leader>b", function() Snacks.picker.buffers() end, desc = "Buffers" },
+    },
   },
 
-  -- File tree (leader+e)
+  -- ── Oil — file tree as editable buffer ──────────────────────────────────────
   {
-    "nvim-tree/nvim-tree.lua",
+    "stevearc/oil.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
-      require("nvim-tree").setup({
-        on_attach = function(bufnr)
-          local api = require("nvim-tree.api")
-          api.config.mappings.default_on_attach(bufnr)
-          vim.keymap.set("n", "<leader>o", function()
-            local node = api.tree.get_node_under_cursor()
-            local path = node.type == "directory" and node.absolute_path or vim.fn.fnamemodify(node.absolute_path, ":h")
-            vim.fn.system("open " .. vim.fn.shellescape(path))
-          end, { buffer = bufnr })
-        end,
+      require("oil").setup({
+        -- show hidden files by default (toggle with g.)
+        view_options = { show_hidden = true },
+        -- open oil in a floating window
+        float = { padding = 2 },
       })
-      map("n", "<leader>e", "<cmd>NvimTreeToggle<CR>")
+      map("n", "<leader>e", "<cmd>Oil --float<CR>", { desc = "Open parent dir (Oil)" })
     end,
   },
 
-  -- Syntax highlighting
+  -- ── Neogit — full-featured git UI ───────────────────────────────────────────
+  {
+    "NeogitOrg/neogit",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "sindrets/diffview.nvim",  -- optional but recommended for richer diffs
+    },
+    config = function()
+      require("neogit").setup({})
+      map("n", "<leader>g", "<cmd>Neogit<CR>", { desc = "Open Neogit" })
+    end,
+  },
+
+  -- ── Git signs in the gutter + inline blame ───────────────────────────────────
+  {
+    "lewis6991/gitsigns.nvim",
+    config = function()
+      require("gitsigns").setup({
+        current_line_blame = true,
+        current_line_blame_opts = {
+          delay          = 500,
+          virt_text_pos  = "eol",
+        },
+      })
+    end,
+  },
+
+  -- ── Syntax highlighting ──────────────────────────────────────────────────────
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
@@ -146,36 +180,33 @@ require("lazy").setup({
       local ok, configs = pcall(require, "nvim-treesitter.configs")
       if not ok then return end
       configs.setup({
-        ensure_installed = { "lua", "python", "javascript", "typescript", "bash", "json", "markdown" },
+        ensure_installed = {
+          "lua", "python", "javascript", "typescript",
+          "bash", "json", "markdown",
+        },
         highlight = { enable = true },
         indent    = { enable = true },
       })
     end,
   },
 
-  -- Auto pairs (brackets, quotes)
+  -- ── Auto pairs (brackets, quotes) ────────────────────────────────────────────
   {
     "windwp/nvim-autopairs",
-    event = "InsertEnter",
+    event  = "InsertEnter",
     config = true,
   },
 
-  -- Comment toggle (gcc / gc in visual)
+  -- ── Comment toggle (gcc / gc in visual) ──────────────────────────────────────
   {
     "numToStr/Comment.nvim",
     config = true,
   },
 
-  -- Git signs in the gutter
-  {
-    "lewis6991/gitsigns.nvim",
-    config = true,
-  },
-
-  -- Which-key (shows keybindings when you pause)
+  -- ── Which-key (shows keybindings when you pause) ──────────────────────────────
   {
     "folke/which-key.nvim",
-    event = "VeryLazy",
+    event  = "VeryLazy",
     config = true,
   },
 

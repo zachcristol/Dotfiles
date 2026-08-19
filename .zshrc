@@ -43,6 +43,7 @@ bindkey -M vicmd 'k' history-beginning-search-backward
 bindkey -M vicmd 'j' history-beginning-search-forward
 bindkey '^[[A' history-beginning-search-backward # Up arrow — prefix search
 bindkey '^[[B' history-beginning-search-forward  # Down arrow — prefix search
+bindkey '^f'   autosuggest-accept               # Ctrl+F - accept autosuggestion
 
 # ── Completion styling ────────────────────────────────────────────────────────
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'   # case-insensitive
@@ -112,3 +113,11 @@ fi
 export PATH="$PATH:/Users/zachcristol/.local/bin"
 export PATH="$HOME/Library/Python/3.11/bin:$PATH"
 export OLLAMA_API_BASE=http://localhost:11434
+
+# pnpm
+export PNPM_HOME="/Users/zachcristol/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+# pnpm end
