@@ -1,2 +1,66 @@
+# Starship prompt configuration
+# Simple and clean - shows what matters, hides what doesn't
+
+# ── Format ────────────────────────────────────────────────────────────────────
+# One line: directory > git branch > language versions > command duration
+# Newline before the actual prompt character for breathing room
+format = """
+$directory$git_branch$git_status$nodejs$python$rust$golang$cmd_duration
+$character"""
+
+# ── Directory ─────────────────────────────────────────────────────────────────
+[directory]
+truncation_length   = 4       # show up to 4 path segments
+truncate_to_repo    = true    # truncate to repo root when inside a git repo
+style               = "bold blue"
+
+# ── Git ───────────────────────────────────────────────────────────────────────
+[git_branch]
+symbol = " "
+style  = "bold purple"
+format = "[$symbol$branch]($style) "
+
+[git_status]
+# keep it terse - just show counts, not every symbol
+format    = '([$all_status$ahead_behind]($style) )'
+style     = "bold red"
+conflicted = "="
+ahead      = "⇡${count}"
+behind     = "⇣${count}"
+diverged   = "⇕⇡${ahead_count}⇣${behind_count}"
+modified   = "!${count}"
+untracked  = "?${count}"
+staged     = "+${count}"
+deleted    = "x${count}"
+
+# ── Language versions (only shown inside relevant projects) ───────────────────
+[nodejs]
+symbol = " "
+format = "[$symbol$version]($style) "
+style  = "bold green"
+detect_files = ["package.json", ".nvmrc", ".node-version"]
+
 [python]
 disabled = true
+
+[rust]
+symbol = " "
+format = "[$symbol$version]($style) "
+style  = "bold orange"
+
+[golang]
+symbol = " "
+format = "[$symbol$version]($style) "
+style  = "bold cyan"
+
+# ── Command duration ──────────────────────────────────────────────────────────
+[cmd_duration]
+min_time          = 2000      # only show if command took 2+ seconds
+format            = "[$duration]($style) "
+style             = "bold yellow"
+show_milliseconds = false
+
+# ── Prompt character ──────────────────────────────────────────────────────────
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol   = "[❯](bold red)"
